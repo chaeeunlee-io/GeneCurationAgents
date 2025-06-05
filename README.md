@@ -2,9 +2,15 @@
 
 This repository contains a working prototype of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen gene–disease validity curation workflow](https://clinicalgenome.org/site/assets/files/9851/gene-disease_validity_standard_operating_procedures-_version_11_docx.pdf) gene–disease validity curation workflow.
 
-![](gene_disease_curation/assets/pipeline.png)
+<!-- ![](gene_disease_curation/assets/pipeline.png)
 
-![](gene_disease_curation/assets/sum_matrix.png)
+![](gene_disease_curation/assets/sum_matrix.png) -->
+
+<!-- Pipeline overview -->
+<img src="gene_disease_curation/assets/pipeline.png" alt="Pipeline overview" width="200"/>
+
+<!-- Summary matrix -->
+<img src="gene_disease_curation/assets/sum_matrix.png" alt="Summary matrix" width="400"/>
 
 Our system
 
