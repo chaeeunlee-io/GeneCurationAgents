@@ -1,10 +1,8 @@
-# Gene-Disease Curation System
-
 # Gene–Disease Validity Curation Demo
 
 ## What this repo shows
 
-This repository contains a **minimal working prototype** of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen](https://clinicalgenome.org/) gene–disease validity curation workflow.
+This repository contains a working prototype of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen gene–disease validity curation workflow](https://clinicalgenome.org/site/assets/files/9851/gene-disease_validity_standard_operating_procedures-_version_11_docx.pdf) gene–disease validity curation workflow.
 
 <!-- ![pipeline](gene_disease_curation/assets/pipeline.png)
 
@@ -18,14 +16,12 @@ This repository contains a **minimal working prototype** of an _LLM‑powered mu
   <img src="gene_disease_curation/assets/sum_matrix.png" width="400"/>
 </p>
 
-In roughly 300 Python lines we:
+Our system
 
 1.  **Search PubMed** for a _gene × disease_ query.
 2.  **Fetch abstracts** for the top _N_ papers.
 3.  **Dispatch four specialist agents** (Variant, Functional, Cohort, Segregation) that independently extract structured evidence from each abstract.
 4.  **Aggregate & weight** the evidence to compute per‑category scores and a provisional clinical‑validity classification ("Limited", "Moderate", "Strong", etc.).
-
-The graph is built with **LangGraph**, so every step is a node; each extractor is a classic _tool‑as‑agent_ 💡.
 
 ---
 
@@ -33,24 +29,19 @@ The graph is built with **LangGraph**, so every step is a node; each extractor i
 
 | Manual curation | How the agents help |
 | --- | --- |
-| Dozens of papers must be read, key info copy‑pasted, and scored by hand | Agents run focussed extraction passes in parallel; no human copy‑pasting |
+| Dozens of papers must be read and scored by hand | Agents run focussed extraction passes in parallel |
 | Evidence types are heterogeneous (variants vs. family segregation vs. functional assays) | Domain‑specific prompts + Pydantic parsers keep the JSON schemas disjoint yet composable |
-| Scoring rules are formulaic but fiddly (weights, caps, years‑since‑first‑report) | A deterministic `calculate_scores` node turns raw agent output into points with one weight table |
-| Curators iterate ("add ClinVar", "re‑query PubMed") | Graph structure makes inserting new nodes—e.g. a \_ClinVarEnricher\_—a one‑liner |
 
 ---
 
 ## Manual effort saved
 
-A trained curator needs **4 – 8 hours** to bring a single gene–disease pair to “classification‑ready”:
+A trained curator typically needs hours to bring a single gene–disease pair to “classification‑ready”:
 
 *   literature triage
 *   per‑patient variant assessment
-*   segregation math
+*   segregation analysis
 *   cross‑checking public databases
-*   narrative summary writing
-
-The demo collapses the triage + evidence‑abstraction phases to **≈ 1 minute** of wall‑clock time and \< $0.10 in API calls, leaving the curator to _review_ rather than _transcribe_.
 
 ---
 
@@ -72,8 +63,6 @@ The demo collapses the triage + evidence‑abstraction phases to **≈ 1 minu
 2.  **Enrichment nodes** – call ClinVar & gnomAD to annotate extracted variants before scoring.
 3.  **Critic loop** – add a validator agent that asks a second LLM to sanity‑check each JSON payload.
 4.  **Vector memory** – store per‑abstract summaries in a local Chroma DB for cross‑gene reuse.
-
-Each of these is a new LangGraph node plus \< 50 LOC.
 
 ---
 
