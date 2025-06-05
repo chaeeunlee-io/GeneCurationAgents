@@ -1,6 +1,6 @@
-# Gene–Disease Validity Curation Demo
+## Gene–Disease Validity Curation Demo
 
-## What this repo shows
+### What this repo shows
 
 This repository contains a working prototype of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen gene–disease validity curation workflow](https://clinicalgenome.org/site/assets/files/9851/gene-disease_validity_standard_operating_procedures-_version_11_docx.pdf) gene–disease validity curation workflow.
 
@@ -25,7 +25,7 @@ Our system
 
 ---
 
-## Why gene curation is perfect for an LLM multi‑agent design
+### Why LLM multi‑agents for gene curation
 
 | Manual curation | How the agents help |
 | --- | --- |
@@ -34,7 +34,7 @@ Our system
 
 ---
 
-## Manual effort saved
+### Manual effort saved
 
 A trained curator typically needs hours to bring a single gene–disease pair to “classification‑ready”:
 
@@ -45,7 +45,7 @@ A trained curator typically needs hours to bring a single gene–disease pair to
 
 ---
 
-## Code / component map
+### Code / component map
 
 | Path | Responsibility |
 | --- | --- |
@@ -57,7 +57,7 @@ A trained curator typically needs hours to bring a single gene–disease pair to
 
 ---
 
-## Extending the demo
+### Extending the demo
 
 1.  **Router node** – let an LLM decide which evidence agents to run per abstract.
 2.  **Enrichment nodes** – call ClinVar & gnomAD to annotate extracted variants before scoring.
@@ -66,5 +66,5 @@ A trained curator typically needs hours to bring a single gene–disease pair to
 
 ---
 
-## Quick‑start
+### Quick‑start
 
