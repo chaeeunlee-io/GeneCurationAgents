@@ -1,6 +1,5 @@
 ## Gene–Disease Validity Curation Demo
 
-### What this repo shows
 
 This repository contains a working prototype of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen gene–disease validity curation workflow](https://clinicalgenome.org/site/assets/files/9851/gene-disease_validity_standard_operating_procedures-_version_11_docx.pdf) gene–disease validity curation workflow.
 
