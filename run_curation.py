@@ -38,6 +38,11 @@ async def run_curation(gene: str, disease: str, use_simple_ner=False):
 
     initial_state = create_initial_state(gene, disease)
     workflow = build_curation_graph()
+    # import pdb; pdb.set_trace()
+    # png_bytes = workflow.get_graph().draw_mermaid_png()
+    # with open("gene_disease_curation/assets/visualisation.png", "wb") as f:
+    #     f.write(png_bytes)
+    # import pdb; pdb.set_trace()
     
     # unique thread ID for this run
     thread_id = str(uuid.uuid4())
@@ -47,26 +52,6 @@ async def run_curation(gene: str, disease: str, use_simple_ner=False):
         initial_state,
         config
     )
-
-    # try:
-    #     # Fix the config parameter format
-    #     config = {"configurable": {"thread_id": thread_id}}
-    #     final_state = await workflow.ainvoke(
-    #         initial_state,
-    #         config
-    #     )
-    # except ValueError as e:
-    #     if "Checkpointer requires" in str(e):
-    #         # If error is about checkpointer but workflow doesn't need it,
-    #         # try without config
-    #         final_state = await workflow.ainvoke(initial_state)
-    #     else:
-    #         # Re-raise if it's a different error
-    #         raise
-    # except Exception as e:
-    #     print(f"Error during workflow execution: {e}")
-    #     # Try without any config as a last resort
-    #     final_state = await workflow.ainvoke(initial_state)
     
     final_state["processing_time"] = (datetime.now() - start_time).total_seconds()
     

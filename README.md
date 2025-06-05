@@ -85,18 +85,18 @@ Gene-Disease Analysis: SCN1A - Dravet syndrome
 ============================================================
 
 Abstracts Analyzed: 30
-Evidence Items Found: 51
+Evidence Items Found: 50
 Publication Years: 1993 - 2024
 
 Evidence Scores:
-  Variant: 5.89
-  Functional: 5.94
+  Variant: 6.76
+  Functional: 5.95
   Segregation: 1.07
-  Cohort: 5.18
-  TOTAL: 19.70
+  Cohort: 4.71
+  TOTAL: 19.87
 
-Classification: definitive
+Classification: strong
 Confidence: 69.00%
 
-Processing Time: 31.98s
+Processing Time: 34.19s
 ```

@@ -214,8 +214,8 @@ async def classify_relationship(state: CurationState) -> Dict:
     total_score = state["total_score"]
     
     thresholds = {
-        "definitive": 12.0,
-        "strong": 8.0,
+        "definitive": 30.0,
+        "strong": 15.0,
         "moderate": 5.0,
         "limited": 2.0,
         "disputed": 0.0
