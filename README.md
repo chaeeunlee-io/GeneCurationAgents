@@ -11,7 +11,7 @@ This repository contains a **minimal working prototype** of an _LLM‑powered mu
 ![criteria](gene_disease_curation/assets/sum_matrix.png) -->
 
 <p align="center">
-  <img src="gene_disease_curation/assets/pipeline.png" width="400"/>
+  <img src="gene_disease_curation/assets/pipeline.png" width="200"/>
 </p>
 
 <p align="center">
