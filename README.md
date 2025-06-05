@@ -1,19 +1,10 @@
 ## Gene–Disease Validity Curation Demo
 
-
 This repository contains a working prototype of an _LLM‑powered multi‑agent pipeline_ that automates large parts of the [ClinGen gene–disease validity curation workflow](https://clinicalgenome.org/site/assets/files/9851/gene-disease_validity_standard_operating_procedures-_version_11_docx.pdf) gene–disease validity curation workflow.
 
-<!-- ![pipeline](gene_disease_curation/assets/pipeline.png)
+![](gene_disease_curation/assets/pipeline.png)
 
-![criteria](gene_disease_curation/assets/sum_matrix.png) -->
-
-<p align="center">
-  <img src="gene_disease_curation/assets/pipeline.png" width="200"/>
-</p>
-
-<p align="center">
-  <img src="gene_disease_curation/assets/sum_matrix.png" width="400"/>
-</p>
+![](gene_disease_curation/assets/sum_matrix.png)
 
 Our system
 
@@ -61,9 +52,45 @@ A trained curator typically needs hours to bring a single gene–disease pair to
 1.  **Router node** – let an LLM decide which evidence agents to run per abstract.
 2.  **Enrichment nodes** – call ClinVar & gnomAD to annotate extracted variants before scoring.
 3.  **Critic loop** – add a validator agent that asks a second LLM to sanity‑check each JSON payload.
-4.  **Vector memory** – store per‑abstract summaries in a local Chroma DB for cross‑gene reuse.
+4.  **Handle reasoning traces** – log intermediate reasoning steps from each agent for traceability and feedback
+5.  **Vector memory** – for better case coverage
 
 ---
 
 ### Quick‑start
 
+```
+python run_curation.py SCN1A "Dravet syndrome" --simple-ner
+```
+
+```
+## Output
+
+...
+Extracting evidence from PMID 33937968
+Extracting evidence from PMID 35013317
+Extracting evidence from PMID 37290534
+Extracting evidence from PMID 37819378
+Extracting evidence from PMID 38229878
+Extracting evidence from PMID 37006128
+
+============================================================
+Gene-Disease Analysis: SCN1A - Dravet syndrome
+============================================================
+
+Abstracts Analyzed: 30
+Evidence Items Found: 51
+Publication Years: 1993 - 2024
+
+Evidence Scores:
+  Variant: 5.89
+  Functional: 5.94
+  Segregation: 1.07
+  Cohort: 5.18
+  TOTAL: 19.70
+
+Classification: definitive
+Confidence: 69.00%
+
+Processing Time: 31.98s
+```

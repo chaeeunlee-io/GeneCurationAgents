@@ -46,5 +46,5 @@ class EvidenceExtractionOrchestrator:
         # Remove the pdb.set_trace() line that's causing the debugger to stop
         # import pdb; pdb.set_trace()
         
-        print(f"Found {len(evidence_items)} evidence items in PMID {pmid}")
+        # print(f"Found {len(evidence_items)} evidence items in PMID {pmid}")
         return evidence_items

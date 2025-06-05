@@ -28,18 +28,23 @@ Abstract: {abstract}
         )
     
     async def analyze(self, pmid: str, abstract_data: Dict, gene: str, disease: str) -> Optional[AbstractEvidence]:
+        
         try:
             response = await self.llm.ainvoke(
                 self.prompt.format(
                     gene=gene,
                     disease=disease,
-                    abstract=abstract_data["full_text"][:1500]
+                    abstract=abstract_data["abstract"][:1500]
                 )
             )
             
             result = self.parser.parse(response.content)
             
+            #     (Pdb) result
+            # VariantEvidence(has_evidence=True, evidence_level='WEAK', variants_found=[], variant_types=[], num_patients=None, inheritance_pattern='de novo', description='The abstract discusses the role of de novo variants in the SCN1A gene related to Dravet syndrome, but does not specify particular variants or patient counts.', confidence=0.5, key_terms=['Dravet syndrome', 'SCN1A', 'de novo variants', 'haploinsufficiency', 'TANGO technology'])
+            #     import pdb; pdb.set_trace()
             if not result.has_evidence:
+                # import pdb; pdb.set_trace()
                 return None
             
             return AbstractEvidence(
@@ -53,6 +58,9 @@ Abstract: {abstract}
                 raw_data=result.dict()
             )
         except Exception as e:
+            
+            print(f"Error in VariantEvidenceAgent: {e}")
+            import pdb; pdb.set_trace()
             return None
 
 
@@ -84,11 +92,15 @@ Abstract: {abstract}
                 self.prompt.format(
                     gene=gene,
                     disease=disease,
-                    abstract=abstract_data["full_text"][:1500]
+                    abstract=abstract_data["abstract"][:1500]
                 )
             )
             
             result = self.parser.parse(response.content)
+            # import pdb; pdb.set_trace()
+            # (Pdb) result
+            # FunctionalEvidence(has_evidence=False, evidence_level='WEAK', experiment_types=[], key_findings=[], disease_mechanism=None, rescue_experiment=False, description='The abstract discusses Dravet syndrome and its association with SCN1A mutations but lacks specific details on experimental methods, assays, model organisms, or any functional studies.', confidence=2.0)
+            
             
             if not result.has_evidence:
                 return None
@@ -137,7 +149,7 @@ Abstract: {abstract}
                 self.prompt.format(
                     gene=gene,
                     disease=disease,
-                    abstract=abstract_data["full_text"][:1500]
+                    abstract=abstract_data["abstract"][:1500]
                 )
             )
             
@@ -188,7 +200,7 @@ Abstract: {abstract}
                 self.prompt.format(
                     gene=gene,
                     disease=disease,
-                    abstract=abstract_data["full_text"][:1500]
+                    abstract=abstract_data["abstract"][:1500]
                 )
             )
             

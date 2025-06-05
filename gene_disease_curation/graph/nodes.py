@@ -120,7 +120,13 @@ async def calculate_scores(state: CurationState) -> Dict:
     # group evidence by type
     evidence_by_type = defaultdict(list)
     for evidence in evidence_items:
-        evidence_by_type[evidence.evidence_type].append(evidence)
+        # Check if evidence is a dict (TypedDict) or an object
+        if isinstance(evidence, dict):
+            evidence_type = evidence["evidence_type"]
+        else:
+            evidence_type = evidence.evidence_type
+            
+        evidence_by_type[evidence_type].append(evidence)
     
     # calculate scores for each type
     variant_score = _calculate_type_score(evidence_by_type[EvidenceType.VARIANT])
@@ -144,7 +150,13 @@ async def calculate_scores(state: CurationState) -> Dict:
     )
     
     # number of independent research groups?
-    pmids = set(evidence.pmid for evidence in evidence_items)
+    pmids = set()
+    for evidence in evidence_items:
+        if isinstance(evidence, dict):
+            pmids.add(evidence["pmid"])
+        else:
+            pmids.add(evidence.pmid)
+    
     independent_groups = min(len(pmids), 10)  # Cap at 10
     
     return {
@@ -171,7 +183,13 @@ def _calculate_type_score(evidence_list: List[AbstractEvidence]) -> float:
     }
     
     # calculate base score from evidence levels
-    base_score = sum(level_scores[evidence.evidence_level] for evidence in evidence_list)
+    base_score = 0.0
+    for evidence in evidence_list:
+        if isinstance(evidence, dict):
+            level = evidence["evidence_level"]
+        else:
+            level = evidence.evidence_level
+        base_score += level_scores[level]
     
     # apply diminishing returns for multiple pieces of evidence
     if len(evidence_list) > 1:
@@ -180,7 +198,14 @@ def _calculate_type_score(evidence_list: List[AbstractEvidence]) -> float:
         base_score = base_score * scaling_factor / len(evidence_list)
     
     # apply confidence adjustments
-    confidence_adjustment = sum(evidence.confidence for evidence in evidence_list) / len(evidence_list)
+    confidence_sum = 0.0
+    for evidence in evidence_list:
+        if isinstance(evidence, dict):
+            confidence_sum += evidence["confidence"]
+        else:
+            confidence_sum += evidence.confidence
+    
+    confidence_adjustment = confidence_sum / len(evidence_list)
     
     return base_score * confidence_adjustment
 
@@ -203,7 +228,14 @@ async def classify_relationship(state: CurationState) -> Dict:
             break
     
     # calculate confidence based on evidence diversity and independent sources
-    evidence_diversity = min(1.0, len(set(e.evidence_type for e in state["evidence_items"])) / 4.0)
+    evidence_types = set()
+    for evidence in state["evidence_items"]:
+        if isinstance(evidence, dict):
+            evidence_types.add(evidence["evidence_type"])
+        else:
+            evidence_types.add(evidence.evidence_type)
+    
+    evidence_diversity = min(1.0, len(evidence_types) / 4.0)
     source_diversity = min(1.0, state["independent_groups"] / 5.0)
     
     confidence_level = 0.5 + 0.25 * evidence_diversity + 0.25 * source_diversity

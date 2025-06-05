@@ -10,6 +10,12 @@ from gene_disease_curation.graph.workflow import build_curation_graph
 from gene_disease_curation.models.state import CurationState
 from gene_disease_curation.utils.helpers import create_initial_state, print_results
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
+
+
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description="Run gene-disease curation workflow")
